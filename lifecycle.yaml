@@ -11,7 +11,7 @@ environment:
 services:
   - name: "lc-test"
     helm:
-      repository: 'vmelikyan/lc-test'
+      repository: 'vigneshrajsb/lc-test'
       branchName: 'main'
       chart:
         name: 'goodrx-app'
@@ -31,7 +31,7 @@ services:
   
   - name: "grpc-echo"
     helm:
-      repository: "vmelikyan/lc-test"
+      repository: "vigneshrajsb/lc-test"
       branchName: "main"
       grpc: true
       chart:
@@ -51,7 +51,7 @@ services:
 
   - name: "redis-helm"
     helm:
-      repository: "vmelikyan/lc-test"
+      repository: "vigneshrajsb/lc-test"
       branchName: "main"
       chart:
         name: "redis"
