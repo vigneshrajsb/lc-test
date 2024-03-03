@@ -6,6 +6,8 @@ environment:
     - name: 'lc-test'
     - name: 'redis-helm'
     - name: 'grpc-echo'
+    - name: 'grpc-echo-disableIngressHostFalse'
+    - name: 'grpc-echo-disable-ingress-host-true'
 
     
 services:
