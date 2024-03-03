@@ -48,7 +48,46 @@ services:
           env:
             COMPONENT: "app"
             ENV: "lifecycle"
-
+  - name: "grpc-echo-disableIngressHostFalse"
+    helm:
+      repository: "vigneshrajsb/lc-test"
+      branchName: "main"
+      grpc: true
+      disableIngressHost: false
+      chart:
+        name: 'goodrx-app'
+        valueFiles:
+          - 'sysops/helm/common.yaml'
+          - 'sysops/helm/lfc/service/grpc-service.yaml'
+      docker:
+        defaultTag: "main"
+        app:
+          dockerfilePath: "grpc-echo/Dockerfile"
+          ports:
+            - 8080
+          env:
+            COMPONENT: "app"
+            ENV: "lifecycle"
+  - name: "grpc-echo-disable-ingress-host-true"
+    helm:
+      repository: "vigneshrajsb/lc-test"
+      branchName: "main"
+      grpc: true
+      disableIngressHost: true
+      chart:
+        name: 'goodrx-app'
+        valueFiles:
+          - 'sysops/helm/common.yaml'
+          - 'sysops/helm/lfc/service/grpc-service.yaml'
+      docker:
+        defaultTag: "main"
+        app:
+          dockerfilePath: "grpc-echo/Dockerfile"
+          ports:
+            - 8080
+          env:
+            COMPONENT: "app"
+            ENV: "lifecycle"
   - name: "redis-helm"
     helm:
       repository: "vigneshrajsb/lc-test"
