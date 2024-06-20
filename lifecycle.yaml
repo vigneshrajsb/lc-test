@@ -6,7 +6,7 @@ environment:
     - name: 'lc-test'
     - name: 'redis-helm'
     - name: 'grpc-echo'
-
+    - name: 'test-tunnel'
     
 services:
   - name: "lc-test"
