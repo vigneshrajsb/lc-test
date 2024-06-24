@@ -6,6 +6,7 @@ environment:
     - name: 'lc-test'
     - name: 'redis-helm'
     - name: 'grpc-echo'
+    - name: 'test-tunnel'
 
     
 services:
@@ -55,6 +56,16 @@ services:
       branchName: "main"
       chart:
         name: "redis"
+
+  - name: 'test-tunnel'
+    helm:
+      repository: 'vigneshrajsb/lc-test'
+      branchName: 'main'
+      chart:
+        name: 'socat-tunneller'
+        values:
+          - 'tunnel.host={{grpc-echo_internalHostname}}'
+          - 'tunnel.port=8080'
 
 
         
