@@ -6,6 +6,7 @@ environment:
     - name: 'lc-test'
     - name: 'redis-helm'
     - name: 'grpc-echo'
+    - name: 'codefresh-app'
 
     
 services:
@@ -55,6 +56,20 @@ services:
       branchName: "main"
       chart:
         name: "redis"
+
+  - name: 'codefresh-app'
+    defaultUUID: 'test-test-1'
+    codefresh:
+      repository: 'vigneshrajsb/lc-test'
+      branchName: 'main'
+      env:
+        CF_TYPE: 'test'
+      deploy:
+        pipelineId: '66b3c1d88c5c2d1215086db7'
+        trigger: 'deploy'
+      destroy:
+        pipelineId: '66b3c2458b5a183f9f81906c'
+        trigger: 'destroy'
 
 
         
