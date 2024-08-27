@@ -27,6 +27,7 @@ services:
             TEST_TEST: 'test'
             WHAT: "is-this"
             MYSQL_DATABASE: "lifecycle"
+            UUID: "TESTING"
           ports:
             - 8080  
   
