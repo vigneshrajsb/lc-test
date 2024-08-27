@@ -26,7 +26,7 @@ services:
             CLIENT_HOST: '{{grpc-echo_internalHostname}}:8080'
             TEST_TEST: 'test'
             WHAT: "is-this"
-            UUID: "TESTING"
+            UUID: "{{buildUUID}}"
           ports:
             - 8080  
   
