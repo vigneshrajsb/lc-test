@@ -1,0 +1,30 @@
+---
+env: lfc                     
+component: seed               
+componentType: cronjob    
+
+serviceAccount:
+  create: false
+  name: "default"
+
+service:
+  enabled: false
+
+deployment:
+  enabled: false
+
+cronjob:
+  enabled: true
+  schedule: "*/5 * * * *"
+  activeDeadlineSeconds: 300
+  backoffLimit: 0
+  terminationGracePeriodSeconds: 120
+  startingDeadlineSeconds: 300
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+
+  resources:
+    limits:
+      cpu: 10m
+      memory: 200Mi
