@@ -55,6 +55,31 @@ services:
       branchName: "main"
       chart:
         name: "redis"
+        
+ - name: "dps-db-seed"
+    helm:
+      type: "cronjob"
+      repository: "vigneshrajsb/lc-test"
+      branchName: "main"
+      chart:
+        name: "goodrx-app"
+        # yaml config for isp automation
+        valueFiles:
+          - "sysops/helm/common.yaml"
+          - "sysops/helm/lfc/cron/seed.yaml"
+      docker:
+        defaultTag: "main"
+        app:
+          dockerfilePath: "sysops/dockerfiles/seed-db.Dockerfile"
+          env:
+            ENV: "lifecycle"
+            COMPONENT: "app"
+            DB_HOST: "{{dps-db_internalHostname}}"
+        init:
+          dockerfilePath: "cron/Dockerfile"
+          env:
+            ENV: "lifecycle"
+            COMPONENT: "app"
 
 
         
