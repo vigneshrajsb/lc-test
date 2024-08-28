@@ -6,6 +6,7 @@ environment:
     - name: 'lc-test'
     - name: 'redis-helm'
     - name: 'grpc-echo'
+    - name: 'db-seed'
 
     
 services:
@@ -55,7 +56,22 @@ services:
       branchName: "main"
       chart:
         name: "redis"
-
-
         
-
+ - name: "db-seed"
+    helm:
+      type: "cronjob"
+      repository: "vigneshrajsb/lc-test"
+      branchName: "main"
+      chart:
+        name: "goodrx-app"
+        valueFiles:
+          - "sysops/helm/common.yaml"
+          - "sysops/helm/lfc/cron/seed.yaml"
+      docker:
+        defaultTag: "main"
+        app:
+          dockerfilePath: "cron/Dockerfile"
+          env:
+            ENV: "lifecycle"
+            COMPONENT: "app"
+            DB_HOST: "{{dps-db_internalHostname}}"
