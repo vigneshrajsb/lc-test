@@ -104,4 +104,5 @@ services:
           defaultInternalHostname: 'github-svc-good-dev-0'
           defaultPublicUrl: 'github-svc-good-dev-0'
         network:
-          kuma: false
+          kuma: 
+            enable: false
