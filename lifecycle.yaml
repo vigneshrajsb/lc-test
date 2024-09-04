@@ -99,6 +99,8 @@ services:
             request: '10m'
           memory:
             request: '50Mi'
+        readiness:
+          tcpSocketPort: 3000
         hostnames:
           host: 'lifecycle.dev.goodrx.com'
           defaultInternalHostname: 'github-svc-good-dev-0'
