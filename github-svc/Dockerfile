@@ -6,7 +6,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY app.js .
+COPY github-svc/app.js .
 
 EXPOSE 3000
 
