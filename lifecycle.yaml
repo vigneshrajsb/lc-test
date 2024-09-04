@@ -7,6 +7,7 @@ environment:
     - name: 'redis-helm'
     - name: 'grpc-echo'
     - name: 'db-seed'
+    - name: 'github-svc'
 
     
 services:
@@ -75,3 +76,30 @@ services:
             ENV: "lifecycle"
             COMPONENT: "app"
             DB_HOST: "{{dps-db_internalHostname}}"
+
+  - name: github-svc
+    defaultUUID: 'good-dev-0'
+    github:
+      repository: 'vigneshrajsb/lc-test'
+      branchName: 'main'
+      docker:
+        defaultTag: 'main'
+        app:
+          dockerfilePath: 'github-svc/Dockerfile'
+          ports:
+            - 5000
+          env:
+            COMPONENT: 'svc'
+            API_KEY: "SECRET"
+      deployment:
+        public: true
+        capacityType: 'SPOT'
+        resource:
+          cpu:
+            request: '10m'
+          memory:
+            request: '50Mi'
+        hostnames:
+          host: 'lifecycle.dev.goodrx.com'
+          defaultInternalHostname: 'github-svc-good-dev-0'
+          defaultPublicUrl: 'github-svc-good-dev-0'
