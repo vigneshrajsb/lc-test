@@ -7,7 +7,7 @@ COPY grpc-echo/go.mod grpc-echo/go.sum ./
 
 RUN go mod download
 
-COPY grpc-echo/ ./
+COPY grpc-echo-fail/ ./
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o grpc-server ./server.go
 
