@@ -5,7 +5,7 @@ FROM node:16-slim
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json files into the working directory
-COPY ../my-express-app/packagefail*.json ./
+COPY ../my-express-app/package*.json ./
 
 # Install the dependencies
 RUN npm install --only=production
