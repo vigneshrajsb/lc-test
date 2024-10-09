@@ -1,0 +1,26 @@
+console:
+  enabled: true
+  ingress:
+    enabled: true
+    className: nginx
+
+external:
+  service:
+    enabled: false
+
+listeners:
+  schemaRegistry:
+    external:
+      default:
+        enabled: true
+        port: 8084
+        advertisedPorts:
+          - 30081
+        tls:
+          enabled: false
+  kafka:
+    tls:
+      enabled: false
+# Hacky way to inject the managed-by Helm label for configuration job's pod that will be in completed state
+commonLabels:
+  app.kubernetes.io/managed-by: Helm
