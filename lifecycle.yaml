@@ -9,6 +9,7 @@ environment:
     - name: 'db-seed'
     - name: 'github-svc'
     - name: 'redpanda'
+    - name: 'cf-build'
 
     
 services:
@@ -129,3 +130,19 @@ services:
           - "console.ingress.hosts[0].host=redpanda-{{buildUUID}}.lifecycle.dev.goodrx.com"
           - "console.ingress.hosts[0].paths[0].path=/"
           - "console.ingress.hosts[0].paths[0].pathType=ImplementationSpecific"
+
+  - name: 'cf-build'
+    defaultUUID: 'good-dev-0'
+    codefresh:
+      repository: 'vigneshrajsb/lc-test'
+      branchName: 'main'
+      env:
+        UUID: '{{cf-build_UUID}}'
+      deploy:
+        pipelineId: '6716ee061897917c1bf1ab5c'
+        trigger: 'deploy-lfc'
+      destroy:
+        pipelineId: '6716ee4c49599aeeb280b84a'
+        trigger: 'destroy-lfc'
+      deployment:
+        public: false
