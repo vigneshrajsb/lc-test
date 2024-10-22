@@ -8,7 +8,8 @@ environment:
     - name: 'grpc-echo'
     - name: 'db-seed'
     - name: 'github-svc'
-    - name: 'redpanda'
+    # - name: 'redpanda'
+    - name: 'cf-build'
 
     
 services:
@@ -109,23 +110,39 @@ services:
         network:
           kuma: 
             enable: false
-  - name: redpanda
-    requires:
-      - name: schema-publisher
-      - name: topic-creator
-    defaultUUID: "good-dev-0"
-    helm:
-      version: "3.13.1"
-      args: "--force --debug --timeout 55m0s --wait"
-      repository: "vigneshrajsb/lc-test"
-      branchName: "main"
-      chart:
-        name: redpanda
-        version: 5.9.0
-        repoUrl: "https://charts.redpanda.com"
-        valueFiles:
-          - "sysops/helm/lfc/rp/redpanda.yaml"
-        values:
-          - "console.ingress.hosts[0].host=redpanda-{{buildUUID}}.lifecycle.dev.goodrx.com"
-          - "console.ingress.hosts[0].paths[0].path=/"
-          - "console.ingress.hosts[0].paths[0].pathType=ImplementationSpecific"
+  # - name: redpanda
+  #   requires:
+  #     - name: schema-publisher
+  #     - name: topic-creator
+  #   defaultUUID: "good-dev-0"
+  #   helm:
+  #     version: "3.13.1"
+  #     args: "--force --debug --timeout 55m0s --wait"
+  #     repository: "vigneshrajsb/lc-test"
+  #     branchName: "main"
+  #     chart:
+  #       name: redpanda
+  #       version: 5.9.0
+  #       repoUrl: "https://charts.redpanda.com"
+  #       valueFiles:
+  #         - "sysops/helm/lfc/rp/redpanda.yaml"
+  #       values:
+  #         - "console.ingress.hosts[0].host=redpanda-{{buildUUID}}.lifecycle.dev.goodrx.com"
+  #         - "console.ingress.hosts[0].paths[0].path=/"
+  #         - "console.ingress.hosts[0].paths[0].pathType=ImplementationSpecific"
+
+  - name: 'cf-build'
+    defaultUUID: 'good-dev-0'
+    codefresh:
+      repository: 'vigneshrajsb/lc-test'
+      branchName: 'main'
+      env:
+        UUID: '{{cf-build_UUID}}'
+      deploy:
+        pipelineId: '6716ee061897917c1bf1ab5c'
+        trigger: 'deploy-lfc'
+      destroy:
+        pipelineId: '6716ee4c49599aeeb280b84a'
+        trigger: 'destroy-lfc'
+      deployment:
+        public: false
