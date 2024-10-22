@@ -9,6 +9,7 @@ environment:
     - name: 'db-seed'
     - name: 'github-svc'
     # - name: 'redpanda'
+  optionalServices:
     - name: 'cf-build'
 
     
