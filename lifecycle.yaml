@@ -11,7 +11,16 @@ environment:
     # - name: 'redpanda'
   optionalServices:
     - name: 'cf-build'
-
+  webhooks:
+    - state: 'deployed'
+      type: 'codefresh'
+      name: 'post deploy pipeline'
+      description: 'kickoff'
+      pipelineId: '6567c5b54a2d1a2a97071781'
+      trigger: 'lifecycle_post_deployed'
+      env:
+        branch: 'main'
+        ENV: 'lfc'
     
 services:
   - name: "lc-test"
