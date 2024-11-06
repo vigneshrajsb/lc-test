@@ -19,7 +19,7 @@ environment:
       pipelineId: '6567c5b54a2d1a2a97071781'
       trigger: 'lifecycle_post_deployed'
       env:
-        branch: 'main'
+        branch: '{{{lc-testfail_branchName}}}'
         ENV: 'lfc'
     
 services:
