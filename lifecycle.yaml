@@ -3,15 +3,24 @@ version: '1.0.0'
 
 environment:
   defaultServices:
-    - name: 'lc-test'
     - name: 'redis-helm'
+  optionalServices:
+    - name: 'lc-test'
     - name: 'grpc-echo'
     - name: 'db-seed'
     - name: 'github-svc'
-    # - name: 'redpanda'
-  optionalServices:
     - name: 'cf-build'
-
+    # - name: 'redpanda'
+  webhooks:
+    - state: 'deployed'
+      type: 'codefresh'
+      name: 'lfc: deployed'
+      description: 'Lifecycle deployed webhook'
+      pipelineId: '6716ee061897917c1bf1ab5c'
+      trigger: 'deploy-lfc'
+      env:
+        branch: 'main'   
+        ENV: 'lifecycle'
     
 services:
   - name: "lc-test"
