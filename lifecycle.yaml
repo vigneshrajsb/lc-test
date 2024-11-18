@@ -69,9 +69,12 @@ services:
       branchName: "main"
       chart:
         name: "redis"
+        version: 20.3.0
+        repoUrl: "https://charts.bitnami.com/bitnami"
         values:
           - "master.pdb.create=true"
-          - "master.pdb.maxUnavailable=0"
+          - "master.pdb.minAvailable=50%"
+          - "master.pdb.maxUnavailable=50%"
         
   - name: "db-seed"
     helm:
