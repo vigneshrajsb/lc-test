@@ -69,6 +69,9 @@ services:
       branchName: "main"
       chart:
         name: "redis"
+        values:
+          - "master.pdb.create=true"
+          - "master.pdb.maxUnavailable=0"
         
   - name: "db-seed"
     helm:
