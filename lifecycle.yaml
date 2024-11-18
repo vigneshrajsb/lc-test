@@ -74,7 +74,6 @@ services:
         values:
           - "master.pdb.create=true"
           - "master.pdb.minAvailable=50%"
-          - "master.pdb.maxUnavailable=50%"
         
   - name: "db-seed"
     helm:
