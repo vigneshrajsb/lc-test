@@ -5,12 +5,12 @@ environment:
   defaultServices:
     - name: 'lc-test'
     - name: 'redis-helm'
+  optionalServices:
+    - name: 'cf-build'
     - name: 'grpc-echo'
     - name: 'db-seed'
     - name: 'github-svc'
     # - name: 'redpanda'
-  optionalServices:
-    - name: 'cf-build'
   webhooks:
     - state: 'deployed'
       type: 'codefresh'
@@ -69,6 +69,12 @@ services:
       branchName: "main"
       chart:
         name: "redis"
+        version: 20.3.0
+        repoUrl: "https://charts.bitnami.com/bitnami"
+        values:
+          - "master.pdb.create=true"
+          - "master.pdb.minAvailable=50%"
+          - "master.count=2"
         
   - name: "db-seed"
     helm:
