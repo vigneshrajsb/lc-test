@@ -69,15 +69,15 @@ services:
       branchName: "main"
       chart:
         name: "redis"
-        version: 20.3.0
+        version: 17.11.6
         repoUrl: "https://charts.bitnami.com/bitnami"
         values:
           - "master.pdb.create=true"
           - "master.pdb.minAvailable=50%"
           - "master.count=2"
-          - "master.resources.requests.cpu=500m"
-          - "master.resources.requests.memory=500Mi"
-          - "master.resources..requests.ephemeral-storage=100Mi"
+          # - "master.resources.requests.cpu=500m"
+          # - "master.resources.requests.memory=500Mi"
+          # - "master.resources.requests.ephemeral-storage=100Mi"
         
   - name: "db-seed"
     helm:
