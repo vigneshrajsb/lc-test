@@ -75,8 +75,9 @@ services:
           - "master.pdb.create=true"
           - "master.pdb.minAvailable=50%"
           - "master.count=2"
-          - "master.resources.limits.cpu=1"
-          - "master.resources.limits.memory=1Gi"
+          - "master.resources.requests.cpu=500m"
+          - "master.resources.requests.memory=500Mi"
+          - "master.resources..requests.ephemeral-storage=100Mi"
         
   - name: "db-seed"
     helm:
