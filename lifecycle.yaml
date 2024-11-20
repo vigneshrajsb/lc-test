@@ -11,16 +11,16 @@ environment:
     # - name: 'redpanda'
   optionalServices:
     - name: 'cf-build'
-  webhooks:
-    - state: 'deployed'
-      type: 'codefresh'
-      name: 'lfc: deployed'
-      description: 'Lifecycle deployed webhook'
-      pipelineId: '6716ee061897917c1bf1ab5c'
-      trigger: 'deploy-lfc'
-      env:
-        branch: 'main'   
-        ENV: 'lifecycle'
+  # webhooks:
+  #   - state: 'deployed'
+  #     type: 'codefresh'
+  #     name: 'lfc: deployed'
+  #     description: 'Lifecycle deployed webhook'
+  #     pipelineId: '6716ee061897917c1bf1ab5c'
+  #     trigger: 'deploy-lfc'
+  #     env:
+  #       branch: 'main'   
+  #       ENV: 'lifecycle'
     
 services:
   - name: "lc-test"
