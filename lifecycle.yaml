@@ -2,15 +2,16 @@
 version: '1.0.0'
 
 environment:
+  autoDeploy: true
   defaultServices:
     - name: 'lc-test'
+  optionalServices:
+    - name: 'cf-build'
     - name: 'redis-helm'
     - name: 'grpc-echo'
     - name: 'db-seed'
     - name: 'github-svc'
     # - name: 'redpanda'
-  optionalServices:
-    - name: 'cf-build'
   webhooks:
     - state: 'deployed'
       type: 'codefresh'
