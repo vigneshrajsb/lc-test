@@ -2,6 +2,7 @@
 version: '1.0.0'
 
 environment:
+  autodeploy: true
   defaultServices:
     - name: 'lc-test'
     - name: 'redis-helm'
