@@ -44,6 +44,7 @@ services:
             - 8080  
   
   - name: "grpc-echo"
+    appShort: "jeffpoc"
     helm:
       repository: "vigneshrajsb/lc-test"
       branchName: "main"
@@ -90,6 +91,7 @@ services:
             DB_HOST: "{{dps-db_internalHostname}}"
 
   - name: github-svc
+    appShort: "jeffpoc"
     defaultUUID: 'good-dev-0'
     github:
       repository: 'vigneshrajsb/lc-test'
