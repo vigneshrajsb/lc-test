@@ -24,6 +24,7 @@ environment:
     
 services:
   - name: "lc-test"
+    appShort: "jeffpoc"
     helm:
       repository: 'vigneshrajsb/lc-test'
       branchName: 'main'
