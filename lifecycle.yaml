@@ -4,10 +4,9 @@ version: '1.0.0'
 environment:
   defaultServices:
     - name: 'lc-test'
-    - name: 'redis-helm'
-    - name: 'grpc-echo'
-    - name: 'db-seed'
-    - name: 'github-svc'
+    - name: "build-test"
+      repository: "vigneshrajsb/backend-svc"
+      branch: "vigneshrajsb-patch-35"
     # - name: 'redpanda'
   optionalServices:
     - name: 'cf-build'
@@ -24,6 +23,8 @@ environment:
     
 services:
   - name: "lc-test"
+    requires:
+      - name: 'grpc-echo'
     helm:
       repository: 'vigneshrajsb/lc-test'
       branchName: 'main'
@@ -40,6 +41,7 @@ services:
             CLIENT_HOST: '{{grpc-echo_internalHostname}}:8080'
             TEST_TEST: 'test'
             WHAT: "is-this"
+            BUILD_DEP_VAR: '{{{build-test.buildOutput((?<=\[id=).*(?=\]))}}}'
           ports:
             - 8080  
   
