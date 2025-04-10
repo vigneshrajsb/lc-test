@@ -21,6 +21,7 @@ environment:
       env:
         branch: 'main'   
         ENV: 'lifecycle'
+        NAMESPACE: '{{{namespace}}}'
     
 services:
   - name: "lc-test"
