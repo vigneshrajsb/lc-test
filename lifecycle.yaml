@@ -120,6 +120,8 @@ services:
         network:
           kuma: 
             enable: false
+        scaling:
+          scaleToZero: true
   # - name: redpanda
   #   requires:
   #     - name: schema-publisher
