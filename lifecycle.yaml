@@ -8,6 +8,7 @@ environment:
     - name: 'grpc-echo'
     - name: 'db-seed'
     - name: 'github-svc'
+    - name: 'memcached'
     # - name: 'redpanda'
   optionalServices:
     - name: 'cf-build'
@@ -156,3 +157,22 @@ services:
         trigger: 'destroy-lfc'
       deployment:
         public: false
+  - name: "memcached"
+    defaultUUID: "good-dev-0"
+    docker:
+      dockerImage: "bitnami/memcached"
+      defaultTag: "latest"
+      ports:
+        - 11211
+      env:
+        MEMCACHED_CACHE_SIZE: "512"
+      deployment:
+        public: false
+        capacityType: "SPOT"
+        resource:
+          cpu:
+            request: "10m"
+          memory:
+            request: "200Mi"
+        readiness:
+          tcpSocketPort: 11211
