@@ -117,9 +117,7 @@ services:
           host: 'lifecycle.dev.goodrx.com'
           defaultInternalHostname: 'github-svc-good-dev-0'
           defaultPublicUrl: 'github-svc-good-dev-0'
-        network:
-          kuma: 
-            enable: false
+
   # - name: redpanda
   #   requires:
   #     - name: schema-publisher
