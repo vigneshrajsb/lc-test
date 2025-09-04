@@ -3,7 +3,15 @@ version: '1.0.0'
 
 environment:
   defaultServices:
+    - name: 'lc-test'
+    - name: 'redis-helm'
+    - name: 'grpc-echo'
+    - name: 'github-svc'
     - name: 'nginx'
+  optionalServices:
+    - name: 'cf-build'
+    - name: 'redpanda'
+    - name: 'db-seed'
   webhooks:
     - state: 'deployed'
       type: 'codefresh'
@@ -16,6 +24,140 @@ environment:
         ENV: 'lifecycle'
     
 services:
+  - name: "lc-test"
+    helm:
+      repository: 'vigneshrajsb/lc-test'
+      branchName: 'main'
+      chart:
+        name: 'goodrx-app'
+        valueFiles:
+          - 'sysops/helm/common.yaml'
+          - 'sysops/helm/lfc/service/app.yaml'
+      docker:
+        defaultTag: 'main'
+        app:
+          dockerfilePath: 'sysops/dockerfiles/app.dockerfile'
+          env:
+            CLIENT_HOST: '{{grpc-echo_internalHostname}}:8080'
+            TEST_TEST: 'test'
+            WHAT: "is-this"
+          ports:
+            - 8080  
+  
+  - name: "grpc-echo"
+    helm:
+      repository: "vigneshrajsb/lc-test"
+      branchName: "main"
+      grpc: true
+      chart:
+        name: 'goodrx-app'
+        valueFiles:
+          - 'sysops/helm/common.yaml'
+          - 'sysops/helm/lfc/service/grpc-service.yaml'
+      docker:
+        defaultTag: "main"
+        app:
+          dockerfilePath: "grpc-echo/Dockerfile"
+          ports:
+            - 8080
+          env:
+            COMPONENT: "app"
+            ENV: "lifecycle"
+
+  - name: "redis-helm"
+    helm:
+      repository: "vigneshrajsb/lc-test"
+      branchName: "main"
+      chart:
+        name: "redis"
+        
+  - name: "db-seed"
+    helm:
+      type: "cronjob"
+      repository: "vigneshrajsb/lc-test"
+      branchName: "main"
+      chart:
+        name: "goodrx-app"
+        valueFiles:
+          - "sysops/helm/common.yaml"
+          - "sysops/helm/lfc/cron/seed.yaml"
+      docker:
+        defaultTag: "main"
+        app:
+          dockerfilePath: "cron/Dockerfile"
+          env:
+            ENV: "lifecycle"
+            COMPONENT: "app"
+            DB_HOST: "{{dps-db_internalHostname}}"
+
+  - name: github-svc
+    defaultUUID: 'good-dev-0'
+    github:
+      repository: 'vigneshrajsb/lc-test'
+      branchName: 'main'
+      docker:
+        defaultTag: 'main'
+        app:
+          dockerfilePath: 'github-svc/Dockerfile'
+          ports:
+            - 5000
+          env:
+            COMPONENT: 'svc'
+            API_KEY: "SECRET"
+      deployment:
+        public: true
+        capacityType: 'SPOT'
+        resource:
+          cpu:
+            request: '10m'
+          memory:
+            request: '50Mi'
+        readiness:
+          tcpSocketPort: 3000
+        hostnames:
+          host: 'lifecycle.dev.goodrx.com'
+          defaultInternalHostname: 'github-svc-good-dev-0'
+          defaultPublicUrl: 'github-svc-good-dev-0'
+        network:
+          kuma: 
+            enable: false
+  - name: redpanda
+    requires:
+      - name: schema-publisher
+      - name: topic-creator
+    defaultUUID: "good-dev-0"
+    helm:
+      version: "3.13.1"
+      args: "--force --debug --timeout 55m0s --wait"
+      repository: "vigneshrajsb/lc-test"
+      branchName: "main"
+      chart:
+        name: redpanda
+        version: 5.9.0
+        repoUrl: "https://charts.redpanda.com"
+        valueFiles:
+          - "sysops/helm/lfc/rp/redpanda.yaml"
+        values:
+          - "console.ingress.hosts[0].host=redpanda-{{buildUUID}}.lifecycle.dev.goodrx.com"
+          - "console.ingress.hosts[0].paths[0].path=/"
+          - "console.ingress.hosts[0].paths[0].pathType=ImplementationSpecific"
+
+  - name: 'cf-build'
+    defaultUUID: 'good-dev-0'
+    codefresh:
+      repository: 'vigneshrajsb/lc-test'
+      branchName: 'main'
+      env:
+        UUID: '{{cf-build_UUID}}'
+      deploy:
+        pipelineId: '6716ee061897917c1bf1ab5c'
+        trigger: 'deploy-lfc'
+      destroy:
+        pipelineId: '6716ee4c49599aeeb280b84a'
+        trigger: 'destroy-lfc'
+      deployment:
+        public: false
+
   - name: "nginx"
     defaultUUID: "dev-0"
     docker:
